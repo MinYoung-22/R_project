@@ -1,0 +1,18 @@
+bisection method 정리
+
+f(x0)*f(x1)< 0 
+err = x1- x0 (인터벌의 간격)
+
+f = 루트를 찾고 싶은 함수 
+eps = tolerance parameter(언제 멈추냐를 결정하는 parameter)
+-> eps가 0에 가까울 수록 반복 횟수가 많아짐
+
+N = 반복 횟수 
+
+x2 = x0와 x1의 중간값 
+
+x0와 x2의 부호가 같다: x2와 x1이 새로운 인터벌
+x0와 x2의 부호가 다르다: root가 x0와 x2 사이에 있다 
+-> x0와 x2가 새로운 인터벌
+
+
