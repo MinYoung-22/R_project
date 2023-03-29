@@ -11,3 +11,5 @@ Newton_Method = function(f, fp, x, eps = 10^(-5)){
   return(list(solution = x, num_repeat = N,
               errors = round(err_set,4)))
 }
+
+#반복횟수가 적다 -> 효율적이다, 시간이 적게 걸린다. 
