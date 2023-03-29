@@ -1,23 +1,24 @@
-#gaussian elimination medthod with R
+Bisection = function(f, x0, x1, eps = 10^(-5)){
+  if (f(x0) * f(x1) >0){
+    return("wrong initial interval!")}
+  N = 0; err = x1 - x0
+  while(err > eps & N <= 1000){ x2 = (x0 + x1)/2
+  if (f(x0) * f(x2) < 0){x1 = x2
+  } else {
+    x0 = x2}
+  err = x1 - x0
+  N = N + 1
+  }
+  return((x0 + x1)/2)
+}
 
-A = matrix(c(4,2,8,6,-2,3,3,5,-6), ncol = 3)
-b = c(25,13,-4)
+library('tictoc')
 
-solve(A,b)
+my_fun = function(x){
+  x^2 + x - 5}
 
-#Back Subtitution
-A = matrix(c(1,0,0,3/2,1,0,3/4,4/3,1), ncol = 3)
-b = c(25/4, 6,3)
-backsolve(A,b)
+x0 = -5; x1 = 0 
 
-#Gaussian elimination method + round-off error
-A = matrix(c(0.00001,1,2,1), ncol=2)
-b = c(2,2)
-Ab = cbind(A,b)
-solve(A,b)
-#해결방법
-options(digits=3)
-A = matrix(c(0.00001, 1,2,1), ncol =2)
-b = c(2,2)
-Ab = cbind(A,b)
-solve(A,b)
+tic()
+Bisection(my_fun,x0,x1,eps = 10^(-5))
+toc()
