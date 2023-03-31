@@ -36,6 +36,6 @@ gaussian_elimination_partial_pivot <- function(A) {
 }
 
 # Call the function and print the solution vector x
-x <- gaussian_elimination_partial_pivot(A)
-print(x)
+gaussian_elimination_partial_pivot(A)
+
 
