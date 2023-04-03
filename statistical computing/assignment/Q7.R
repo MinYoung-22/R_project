@@ -1,41 +1,46 @@
-# Define an n by p matrix A
-A <- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12), nrow = 3)
+A <- matrix(c(4, 2, 8, 6, -2, 3, 3, 5, -6, 25, 13, -4), ncol = 4)
 
-# Define a function to perform Gaussian elimination with partial pivoting
-gaussian_elimination_partial_pivot <- function(A) {
-  n <- nrow(A)
-  p <- ncol(A) - 1 # Exclude the last column which contains the constants
+# 행을 서로 바꾸는 함수 
+swap_rows <- function(df, n, k) {
+  row_n <- df[n, ]
+  row_k <- df[k, ]
+  df[n, ] <- row_k
+  df[k, ] <- row_n
+  return(df)
+}
+
+gaussian_elimination<- function(A){
   
-  # Forward elimination
-  for (i in 1:(n-1)) {
-    # Partial pivoting
-    pivot <- i
-    for (j in (i+1):p) {
-      if (abs(A[pivot,i]) < abs(A[j,i])) {
-        pivot <- j
+  n <- nrow(A)
+  p <- ncol(A)
+  
+  # partial pivoting
+  for (i in 1:(n-1)) { 
+    max_index <- which.max(abs(A[, i]))
+    if(max_index != i) {
+      A <- swap_rows(A, max_index, i)
+    }
+    for (j in (i+1):n) {
+      quo <- A[j, i] / A[i, i]
+      A[j, ] <- A[j, ] - quo * A[i, ]
+    }
+  }
+  #back substitution
+  x <- rep(0, p)
+  b <- A[,p]
+  
+  for (k in n:1) {
+    x[k] <- b[k]
+    if (k != n){
+      for (l in (k+1):p){
+        x[k] <- x[k] - A[k,l]*x[l]
       }
     }
-    if (pivot != i) {
-      A[c(i,pivot),] <- A[c(pivot,i),]
-    }
-    
-    # Gaussian elimination
-    for (j in (i+1):n) {
-      multiplier <- A[j,i]/A[i,i]
-      A[j,(i+1):p+1] <- A[j,(i+1):p+1] - multiplier * A[i,(i+1):p+1]
-    }
+    x[k] <- x[k]/A[k,k]
   }
   
-  # Backward substitution
-  x <- numeric(p)
-  for (i in p:1) {
-    x[i] <- (A[i,p+1] - sum(A[i,(i+1):p] * x[(i+1):p]))/A[i,i]
-  }
-  
-  # Return the solution vector x
   return(x)
 }
 
-# Call the function and print the solution vector x
-gaussian_elimination_partial_pivot(A)
+gaussian_elimination(A)
 
