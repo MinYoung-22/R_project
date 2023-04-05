@@ -1,46 +1,42 @@
-A <- matrix(c(4, 2, 8, 6, -2, 3, 3, 5, -6, 25, 13, -4), ncol = 4)
+A <- matrix(c(2,2,3,5,-2,4,-2,4,-1,6,6,8), ncol= 4)
+A
+n <- nrow(A)
+p <- ncol(A)
 
-# ÇàÀ» ¼­·Î ¹Ù²Ù´Â ÇÔ¼ö 
-swap_rows <- function(df, n, k) {
-  row_n <- df[n, ]
-  row_k <- df[k, ]
-  df[n, ] <- row_k
-  df[k, ] <- row_n
-  return(df)
+
+# í–‰ì„ ì„œë¡œ ë°”ê¾¸ëŠ” í•¨ìˆ˜
+swap_rows <-  function(A,x,y){
+  row_x <-A[x,]
+  row_y <-A[y,]
+  A[y,]<- row_x
+  A[x, ] <- row_y
+  return (A)
 }
 
-gaussian_elimination<- function(A){
-  
-  n <- nrow(A)
-  p <- ncol(A)
-  
-  # partial pivoting
-  for (i in 1:(n-1)) { 
-    max_index <- which.max(abs(A[, i]))
-    if(max_index != i) {
-      A <- swap_rows(A, max_index, i)
-    }
-    for (j in (i+1):n) {
-      quo <- A[j, i] / A[i, i]
-      A[j, ] <- A[j, ] - quo * A[i, ]
-    }
+# partial pivoting
+for (i in 1:(n - 1)) {
+  max_index <- which.max(abs(A[i:n, i])) + i - 1
+  if (max_index != i) {
+    A <- swap_rows(A, i, max_index)
   }
-  #back substitution
-  x <- rep(0, p)
-  b <- A[,p]
-  
-  for (k in n:1) {
-    x[k] <- b[k]
-    if (k != n){
-      for (l in (k+1):p){
-        x[k] <- x[k] - A[k,l]*x[l]
-      }
-    }
-    x[k] <- x[k]/A[k,k]
+  for (j in (i + 1):n) {
+    quo <- A[j, i] / A[i, i]
+    A[j, ] <- A[j, ] - quo * A[i, ]
   }
-  
-  return(x)
 }
+A
+# back substitution
+x<- vector()
+b<- A[ ,p]
+b
 
-gaussian_elimination(A)
-
+for(i in n:1){
+  for(j in n:(i+1)){
+    if(n >=(i+1)){
+      x[i] <- (b[i]-sum(x[j]*A[i,j]))/A[i,i]
+    }else{
+      x[i] <- b[i]/A[i,i]
+    }
+  }
+}
+x
