@@ -1,20 +1,28 @@
-A <- matrix(c(3,2,-1,1,-5,1,-1,1,4,1,-8,5), ncol = 4)
+# A: n x n matrix
+# b: n x 1 vector
+# tol: tolerance for convergence
+# max.iter: maximum number of iterations
 
-n <- nrow(A)
-p <- ncol(A) 
-
-x <- vector()
-b <- A[,p]
-
-for (i in 1:n){
-  x [i] <- 0 
-}
-
-for (k in 1:n){
-  for (j in 1:(p-1)){
-    x[k] <- (b[k]-(sum(x[j]*A[k,j]-x[k]*A[k,k])))/A[k,k]
+gauss_seidel <- function(A, b, tol = 1e-10, max.iter = 1000) {
+  n <- nrow(A)
+  x <- numeric(n)  # initial guess of x is set to 0
+  for (iter in 1:max.iter) {
+    for (i in 1:n) {
+      x_i <- b[i]
+      for (j in 1:n) {
+        if (j != i) {
+          x_i <- x_i - A[i, j] * x[j]
+        }
+      }
+      x[i] <- x_i / A[i, i]
+    }
+    if (max(abs(A %*% x - b)) < tol) {
+      break
+    }
   }
+  return(x)
 }
-x
 
-
+A <- matrix(c(3,2,-1,1,-5,1,-1,1), ncol = 3)
+b <- (4,1,-8,5)
+gauss_seidel(A,b)
