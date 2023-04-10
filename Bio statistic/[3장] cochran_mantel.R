@@ -12,6 +12,8 @@ tbl <- array(c(4,3,3,6,
                7,2,6,3,
                6,2,2,8), dim = c(2, 2, 11))
 
+tbl
+
 mantelhaen.test(tbl,correct = F)
 BreslowDayTest(tbl)
 
