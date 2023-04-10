@@ -1,4 +1,5 @@
 library(DescTools)
-tbl <- as.table(matrix(c(45,0,5,50),nrow=2))
+tbl <- as.table(matrix(c(45,5,0,50),nrow=2))
 
 fisher.test(tbl, alternative = 'less')
+
