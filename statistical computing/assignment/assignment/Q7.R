@@ -3,8 +3,6 @@ A
 n <- nrow(A)
 p <- ncol(A)
 
-
-# 행을 서로 바꾸는 함수
 swap_rows <-  function(A,x,y){
   row_x <-A[x,]
   row_y <-A[y,]
@@ -13,7 +11,6 @@ swap_rows <-  function(A,x,y){
   return (A)
 }
 
-# partial pivoting
 for (i in 1:(n - 1)) {
   max_index <- which.max(abs(A[i:n, i])) + i - 1
   if (max_index != i) {
@@ -25,7 +22,7 @@ for (i in 1:(n - 1)) {
   }
 }
 A
-# back substitution
+
 x<- vector()
 b<- A[ ,p]
 b
